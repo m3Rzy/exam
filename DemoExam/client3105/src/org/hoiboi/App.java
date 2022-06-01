@@ -1,5 +1,7 @@
 package org.hoiboi;
 
+import org.hoiboi.UI.ServiceTableForm;
+
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +14,8 @@ public class App {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        new ServiceTableForm();
+//        поменять слэш на противоположный у путей до картинок, скинуть картинки сервисов в resources, сделать crud + sort
     }
 
     public static Connection getConnection() throws SQLException {

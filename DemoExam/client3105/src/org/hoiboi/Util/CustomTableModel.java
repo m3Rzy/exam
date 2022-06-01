@@ -1,14 +1,31 @@
 package org.hoiboi.Util;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.table.AbstractTableModel;
-
+import java.lang.reflect.Field;
+import java.util.List;
+@AllArgsConstructor
 public class CustomTableModel<T> extends AbstractTableModel {
-//    дописать класс + сделать swing
+    private Class<T> cls;
+    private String[] columnNames;
+    private List<T> rows;
 
+    @Override
+    public int getRowCount() {
+        return rows.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return cls.getDeclaredFields().length;
+    }
 
     @Override
     public String getColumnName(int column) {
-        return super.getColumnName(column);
+        return column < columnNames.length ? columnNames[column] : "*Название*";
     }
 
     @Override
@@ -17,17 +34,15 @@ public class CustomTableModel<T> extends AbstractTableModel {
     }
 
     @Override
-    public int getRowCount() {
-        return 0;
-    }
-
-    @Override
-    public int getColumnCount() {
-        return 0;
-    }
-
-    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return null;
+        try {
+            Field field = cls.getDeclaredFields()[columnIndex];
+            field.setAccessible(true);
+            return field.get(rows.get(rowIndex));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return "ОШИБКа";
+        }
     }
+
 }

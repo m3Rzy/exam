@@ -4,7 +4,12 @@ package org.hoiboi.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+
+
 @Data
 public class ServiceEntity {
     private int id;
@@ -14,4 +19,33 @@ public class ServiceEntity {
     private String description;
     private int discount;
     private String MainImagePath;
+
+    private ImageIcon image;
+
+    public ServiceEntity(int id, String title, double cost, int duration, String description, int discount, String mainImagePath) {
+        this.id = id;
+        this.title = title;
+        this.cost = cost;
+        this.duration = duration;
+        this.description = description;
+        this.discount = discount;
+        MainImagePath = mainImagePath;
+
+        try {
+            this.image = new ImageIcon(ImageIO.read(ServiceEntity.class.getClassLoader().getResource(mainImagePath))
+                    .getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ServiceEntity(String title, double cost, int duration, String description, int discount, String mainImagePath) {
+        this.id = -1;
+        this.title = title;
+        this.cost = cost;
+        this.duration = duration;
+        this.description = description;
+        this.discount = discount;
+        MainImagePath = mainImagePath;
+    }
 }
