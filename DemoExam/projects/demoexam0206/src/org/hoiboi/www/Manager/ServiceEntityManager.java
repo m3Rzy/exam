@@ -45,7 +45,7 @@ public class ServiceEntityManager {
             ps.setString(4, service.getDesc());
             ps.setInt(5, service.getDiscount());
             ps.setString(6, service.getMainImagePath());
-
+            ps.setInt(7, service.getId());
             ps.executeUpdate();
 
         }

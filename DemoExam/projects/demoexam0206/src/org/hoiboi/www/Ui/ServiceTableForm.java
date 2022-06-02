@@ -7,11 +7,13 @@ import org.hoiboi.www.Util.CustomTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
-import java.sql.SQLException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ServiceTableForm extends BaseForm {
     private JPanel mainPanel;
     private JTable table;
+    private JButton addButton;
     private CustomTableModel<ServiceEntity> model;
 
     public ServiceTableForm()
@@ -20,8 +22,29 @@ public class ServiceTableForm extends BaseForm {
         setContentPane(mainPanel);
 
         initTable();
-
+        initButtons();
         setVisible(true);
+    }
+
+    public void initButtons()
+    {
+        addButton.addActionListener(e -> {
+            dispose();
+            new ServiceCreateForm();
+        });
+
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2) {
+                    int row = table.rowAtPoint(e.getPoint());
+                    if(row != -1) {
+                        dispose();
+                        new ServiceEditForm(model.getRows().get(row));
+                    }
+                }
+            }
+        });
     }
 
     public void initTable()
@@ -47,5 +70,6 @@ public class ServiceTableForm extends BaseForm {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }

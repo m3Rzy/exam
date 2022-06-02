@@ -1,6 +1,8 @@
 package org.hoiboi.www.Util;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.Field;
@@ -11,6 +13,7 @@ import java.util.List;
 public class CustomTableModel<T> extends AbstractTableModel {
     private Class<T> cls;
     private String[] columnNames;
+    @Getter @Setter
     private List<T> rows;
 
     @Override
